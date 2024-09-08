@@ -16,5 +16,19 @@ impl Plugin for RoundUiPlugin {
 
         #[cfg(feature = "autosize")]
         app.add_plugins(RoundUiAutosizePlugin);
+
+		app.add_systems(Update, timer_update);
+    }
+}
+
+fn timer_update(
+    mut materials: ResMut<Assets<RoundUiMaterial>>,
+//    mut windows: Query<&mut Window>,
+	time: Res<Time>,
+) {
+//    let window = windows.single_mut();
+    for (_, material) in materials.iter_mut() {
+		material.time = time.elapsed_seconds();
+//		material.resolution = Vec2::new(window.width(), window.height());
     }
 }
