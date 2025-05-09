@@ -85,7 +85,7 @@ fn setup(
     mut superellipse_materials: ResMut<Assets<SuperellipseUiMaterial>>,
 ) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     // Define a material for the panel.
     // This material looks like it has a border, because we applied an equal offset to all sides.
@@ -98,20 +98,17 @@ fn setup(
 
     // Spawn the screen layout, containing a centered panel with menu items
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
-            p.spawn(MaterialNodeBundle {
-                material: panel_material,
-                style: Style {
+            p.spawn((
+                MaterialNode(panel_material),
+                Node {
                     width: Val::Px(PANEL_WIDTH),
                     padding: UiRect::axes(Val::Px(40.), Val::Px(60.)),
                     flex_direction: FlexDirection::Column,
@@ -119,29 +116,25 @@ fn setup(
                     justify_content: JustifyContent::Center,
                     ..default()
                 },
-                ..default()
-            })
+            ))
             .with_children(|p| {
                 // Spawn the title
-                p.spawn(NodeBundle {
-                    style: Style {
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Center,
-                        margin: UiRect::bottom(Val::Px(40.)),
-                        ..default()
-                    },
+                p.spawn((Node {
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    margin: UiRect::bottom(Val::Px(40.)),
                     ..default()
-                })
-                .with_children(|p| {
-                    p.spawn(TextBundle::from_section(
-                        "MENU",
-                        TextStyle {
-                            color: Color::WHITE,
-                            font_size: 40.,
-                            ..default()
-                        },
-                    ));
-                });
+                },))
+                    .with_children(|p| {
+                        p.spawn((
+                            Text::new("MENU"),
+                            TextFont {
+                                font_size: 40.,
+                                ..default()
+                            },
+                            TextColor::WHITE,
+                        ));
+                    });
 
                 // Spawn the buttons
                 spawn_button(p, &button_style, "Play", ButtonAction::Play);
@@ -161,29 +154,26 @@ fn spawn_button(
     parent
         .spawn((
             RoundButton,
-            MaterialNodeBundle {
-                material: button_style.default_material.clone(),
-                style: Style {
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
-                    width: Val::Percent(100.),
-                    height: Val::Px(BUTTON_HEIGHT),
-                    margin: UiRect::top(Val::Px(10.)),
-                    ..default()
-                },
+            Node {
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
+                width: Val::Percent(100.),
+                height: Val::Px(BUTTON_HEIGHT),
+                margin: UiRect::top(Val::Px(10.)),
                 ..default()
             },
+            MaterialNode(button_style.default_material.clone()),
             extras,
             Interaction::default(),
         ))
         .with_children(|p| {
-            p.spawn(TextBundle::from_section(
-                text,
-                TextStyle {
-                    color: Color::WHITE,
+            p.spawn((
+                Text::new(text),
+                TextFont {
                     font_size: 20.,
                     ..default()
                 },
+                TextColor::WHITE,
             ));
         })
         .id()
@@ -193,7 +183,11 @@ fn spawn_button(
 #[allow(clippy::type_complexity)]
 fn handle_button_interactions(
     mut interaction_query: Query<
-        (&Interaction, &mut Handle<RoundRectUiMaterial>, &mut Style),
+        (
+            &Interaction,
+            &mut MaterialNode<RoundRectUiMaterial>,
+            &mut Node,
+        ),
         (Changed<Interaction>, With<RoundButton>),
     >,
     button_style: Res<ButtonStyle>,
@@ -213,7 +207,7 @@ fn handle_button_interactions(
                 button_style.default_padding,
             ),
         };
-        *material = material_handle;
+        **material = material_handle;
         style.padding = padding;
     }
 }

@@ -16,7 +16,7 @@ const PANEL_HEIGHT: f32 = 200.0;
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     // Add the material
     let panel_material = materials.add(RoundRectUiMaterial {
@@ -28,25 +28,21 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
 
     // Spawn the material in the middle of the screen
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
-            p.spawn(MaterialNodeBundle {
-                material: panel_material,
-                style: Style {
+            p.spawn((
+                Node {
                     width: Val::Px(PANEL_WIDTH),
                     height: Val::Px(PANEL_HEIGHT),
                     ..default()
                 },
-                ..default()
-            });
+                MaterialNode(panel_material),
+            ));
         });
 }
