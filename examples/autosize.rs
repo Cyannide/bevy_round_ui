@@ -40,6 +40,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
                     border_color: LinearRgba::WHITE,
                     border_radius: RoundUiBorder::all(20.).into(),
                     offset: RoundUiOffset::all(6.).into(),
+                    ..default()
                 })),
             ))
             .with_children(|p| {
@@ -58,6 +59,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
                         border_color: LinearRgba::WHITE,
                         border_radius: RoundUiBorder::all(20.0).into(),
                         offset: RoundUiOffset::all(6.0).into(),
+                        ..default()
                     })),
                 ))
                 .with_children(|p| {

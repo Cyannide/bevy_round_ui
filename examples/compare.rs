@@ -44,6 +44,7 @@ fn setup(
         border_color,
         border_radius,
         border_thickness: BORDER_THICKNESS,
+        ..default()
     });
     // Add the round rect material
     let panel_material_round_rect = old_materials.add(RoundRectUiMaterial {
@@ -51,6 +52,7 @@ fn setup(
         border_color,
         border_radius,
         offset: RoundUiOffset::all(BORDER_THICKNESS / 2.).into(),
+        ..default()
     });
 
     // Spawn help text

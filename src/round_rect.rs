@@ -16,7 +16,19 @@ impl Plugin for RoundRectMaterialPlugin {
             Shader::from_wgsl
         );
 
-        app.add_plugins(UiMaterialPlugin::<RoundRectUiMaterial>::default());
+        app.add_plugins(UiMaterialPlugin::<RoundRectUiMaterial>::default())
+            .add_systems(PreUpdate, update_round_rect_inverse_scale_factor);
+    }
+}
+
+pub fn update_round_rect_inverse_scale_factor(
+    query: Query<(&ComputedNode, &MaterialNode<RoundRectUiMaterial>)>,
+    mut materials: ResMut<Assets<RoundRectUiMaterial>>,
+) {
+    for (computed_node, material) in &query {
+        if let Some(mat) = materials.get_mut(material) {
+            mat.inverse_scale_factor = computed_node.inverse_scale_factor();
+        }
     }
 }
 
@@ -41,6 +53,10 @@ pub struct RoundRectUiMaterial {
     /// E.g. Vec4::new((top, left, bottom, right)
     #[uniform(0)]
     pub offset: Vec4,
+
+    /// The ComputedNode inverse scale factor
+    #[uniform(0)]
+    pub inverse_scale_factor: f32,
 }
 
 impl Default for RoundRectUiMaterial {
@@ -50,6 +66,7 @@ impl Default for RoundRectUiMaterial {
             border_color: LinearRgba::NONE,
             border_radius: Vec4::splat(0.),
             offset: Vec4::splat(0.),
+            inverse_scale_factor: 1.,
         }
     }
 }

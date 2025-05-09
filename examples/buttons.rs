@@ -46,6 +46,7 @@ impl FromWorld for ButtonStyle {
                 border_color: Srgba::hex("#A53A3D").unwrap().into(),
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::bottom(BUTTON_OFFSET_SIZE).into(),
+                ..default()
             }),
             default_padding: UiRect::bottom(Val::Px(BUTTON_OFFSET_SIZE)),
             hover_material: materials.add(RoundRectUiMaterial {
@@ -53,6 +54,7 @@ impl FromWorld for ButtonStyle {
                 border_color: Srgba::hex("#A0102A").unwrap().into(),
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::bottom(BUTTON_OFFSET_SIZE).into(),
+                ..default()
             }),
             hover_padding: UiRect::bottom(Val::Px(BUTTON_OFFSET_SIZE)),
             press_material: materials.add(RoundRectUiMaterial {
@@ -60,6 +62,7 @@ impl FromWorld for ButtonStyle {
                 border_color: LinearRgba::NONE,
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::top(BUTTON_OFFSET_SIZE).into(),
+                ..default()
             }),
             press_padding: UiRect::top(Val::Px(BUTTON_OFFSET_SIZE)),
         }
@@ -94,6 +97,7 @@ fn setup(
         border_color: Srgba::hex(PANEL_BORDER_COLOR).unwrap().into(),
         border_radius: RoundUiBorder::all(20.0).into(),
         border_thickness: 6.0,
+        ..default()
     });
 
     // Spawn the screen layout, containing a centered panel with menu items

@@ -24,6 +24,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
         border_color: Srgba::hex("#A53A3D").unwrap().into(),
         border_radius: RoundUiBorder::all(20.0).into(),
         offset: RoundUiOffset::bottom(10.0).into(),
+        ..default()
     });
 
     // Spawn the material in the middle of the screen

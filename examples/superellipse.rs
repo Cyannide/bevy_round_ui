@@ -37,6 +37,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
         border_color,
         border_radius,
         border_thickness: BORDER_THICKNESS,
+        ..default()
     });
 
     // Spawn help text

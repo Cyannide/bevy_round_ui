@@ -29,6 +29,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
         border_color: Srgba::hex(CIRCLE_BORDER_COLOR).unwrap().into(),
         border_radius: RoundUiBorder::all(CIRCLE_DIAMETER).into(),
         offset: RoundUiOffset::bottom(CIRCLE_OFFSET_SIZE).into(),
+        ..default()
     });
 
     // Spawn a round material node in the middle of the screen

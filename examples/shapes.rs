@@ -32,6 +32,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
+            ..default()
         }),
         // Round rect with border
         materials.add(RoundRectUiMaterial {
@@ -39,6 +40,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#FFFFFF").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::all(4.0).into(),
+            ..default()
         }),
         // Round rect with offset to bottom right
         materials.add(RoundRectUiMaterial {
@@ -46,6 +48,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom_right(5.0).into(),
+            ..default()
         }),
     ];
     let circle_materials = [
@@ -61,6 +64,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
+            ..default()
         }),
         // Circle with border
         // NOTE: The border is not perfect
@@ -69,6 +73,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#FFFFFF").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::all(4.0).into(),
+            ..default()
         }),
         // Circle with border-radius longer than sides
         materials.add(RoundRectUiMaterial {
@@ -76,6 +81,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE * 2.).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
+            ..default()
         }),
     ];
 
