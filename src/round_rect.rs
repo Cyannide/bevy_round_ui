@@ -1,8 +1,13 @@
-use bevy::{asset::load_internal_asset, prelude::*, render::render_resource::*};
+use bevy::{
+    asset::{load_internal_asset, weak_handle},
+    prelude::*,
+    render::render_resource::*,
+};
 
 use crate::types::*;
 
-pub const ROUND_RECT_SHADER_HANDLE: Handle<Shader> = Handle::weak_from_u128(66552904175742639684);
+#[rustfmt::skip]
+pub const ROUND_RECT_SHADER_HANDLE: Handle<Shader> = weak_handle!("0196b79a-6b39-71f0-a57f-87912ea368a9");
 
 /// Plugin which adds a `RoundRectUiMaterial` to the app.
 pub struct RoundRectMaterialPlugin;

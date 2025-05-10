@@ -73,7 +73,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
         });
 }
 
-fn help_text(p: &mut ChildBuilder, val: impl Into<String>) {
+fn help_text(p: &mut ChildSpawnerCommands, val: impl Into<String>) {
     p.spawn((
         Text::new(val),
         TextFont {

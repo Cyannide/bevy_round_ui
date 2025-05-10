@@ -150,7 +150,7 @@ fn setup(
 
 /// Utility that spawns a new button.
 fn spawn_button(
-    parent: &mut ChildBuilder,
+    parent: &mut ChildSpawnerCommands,
     button_style: &ButtonStyle,
     text: impl Into<String>,
     extras: impl Bundle,
@@ -228,7 +228,7 @@ fn handle_button_actions(
                 ButtonAction::Play => (),
                 ButtonAction::Settings => (),
                 ButtonAction::Quit => {
-                    app_exit_events.send(AppExit::Success);
+                    app_exit_events.write(AppExit::Success);
                 }
             }
         }
