@@ -65,6 +65,10 @@ pub struct SuperellipseUiMaterial {
     /// The ComputedNode inverse scale factor
     #[uniform(0)]
     pub inverse_scale_factor: f32,
+
+    /// Time
+    #[uniform(0)]
+    pub time: f32,
 }
 
 impl Default for SuperellipseUiMaterial {
@@ -75,6 +79,7 @@ impl Default for SuperellipseUiMaterial {
             border_radius: Vec4::splat(0.),
             border_thickness: 0.,
             inverse_scale_factor: 1.,
+            time: 0f32,
         }
     }
 }

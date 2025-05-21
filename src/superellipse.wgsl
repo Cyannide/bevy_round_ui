@@ -12,6 +12,8 @@ struct SuperellipseUiMaterial {
     @location(3) border_thickness: f32,
     /// Inverse scale factor: must be updated to match the ComputedNode
     @location(4) inverse_scale_factor: f32,
+
+    @location(5) time: f32,
 }
 
 @group(1) @binding(0)
