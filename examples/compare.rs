@@ -86,7 +86,7 @@ fn setup(
                     justify_content: JustifyContent::Center,
                     ..default()
                 },
-                BorderColor(css::BLUE.into()),
+                BorderColor::all(css::BLUE),
             ))
             .with_children(|p| {
                 // Spawn a superellipse material, displayed by default

@@ -1,11 +1,12 @@
 use bevy::{
-    asset::{load_internal_asset, weak_handle},
+    asset::{load_internal_asset, uuid_handle},
     prelude::*,
     render::render_resource::*,
+    shader::ShaderRef,
 };
 
 #[rustfmt::skip]
-pub const SUPERELLIPSE_SHADER_HANDLE: Handle<Shader> = weak_handle!("0196b79a-31a5-7a86-9a00-d1f63e0982f0");
+pub const SUPERELLIPSE_SHADER_HANDLE: Handle<Shader> = uuid_handle!("0196b79a-31a5-7a86-9a00-d1f63e0982f0");
 
 /// Plugin which adds a `SuperellipseUiMaterial` to the app.
 pub struct SuperellipseMaterialPlugin;

@@ -219,7 +219,7 @@ fn handle_button_interactions(
 /// System that handles button click events
 fn handle_button_actions(
     interaction_query: Query<(&Interaction, &ButtonAction), Changed<Interaction>>,
-    mut app_exit_events: EventWriter<AppExit>,
+    mut app_exit_events: MessageWriter<AppExit>,
 ) {
     for (interaction, action) in &interaction_query {
         if *interaction == Interaction::Pressed {
