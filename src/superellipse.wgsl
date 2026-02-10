@@ -14,6 +14,11 @@ struct SuperellipseUiMaterial {
     @location(4) inverse_scale_factor: f32,
 
     @location(5) time: f32,
+
+    @location(6) turbulence_color: vec4<f32>,
+    @location(7) power: f32,
+    @location(8) resolution: vec2<f32>,
+    @location(9) value: f32,
 }
 
 @group(1) @binding(0)
@@ -72,18 +77,75 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
     // define the alpha and color values depending on the distance sign.
     let alpha = select(input.background_color.a, 0., d > 0.);
-    var col: vec3f = select(input.background_color.rgb, vec3f(0.), d > 0.0);
+    var col = select(
+        //input.background_color.rgb,
+        turbulence(in, input.turbulence_color, input.background_color),
+        vec4f(0.),
+        d > 0.0
+    );
 
     // // Debug: Show distance
     // col *= 1.0 - exp(-6.0 * abs(d));
     // col *= 0.8 + 0.2 * cos(150.0 * d);
 
     // Apply border color
-    var result = vec4f(col, alpha);
+    var result = vec4f(col.rgb, alpha);
     if is_border {
         let border_thickness_uv = input.border_thickness / input.inverse_scale_factor / min_size;
         result = mix(result, input.border_color, 1.0 - smoothstep(0.0, border_thickness_uv, abs(d)));
     }
 
     return result;
+}
+
+fn rgba_shift(color: vec4<f32>) -> vec4<f32> {
+    let shift = color.a - min(color.r, min(color.g, color.b)) - max(color.r, max(color.g, color.b));
+    return vec4(shift + color.r, shift + color.g, shift + color.b, color.a);
+}
+
+const TAU = 6.28318530718;
+const MAX_ITER = 5;
+
+fn turbulence(in: UiVertexOutput, turbulence_color: vec4<f32>, base_color: vec4<f32>) -> vec4<f32> {
+
+    let time = input.time * 0.5 + 23.0;
+    // uv should be the 0-1 uv of texture...
+    //var uv = in.uv;
+    //var uv = in.uv + vec2(in.position.x / 1280.0, in.position.y / 720.0);
+    //var uv = in.uv + in.position.xy / input.resolution.xy;
+    var uv = in.uv / in.size.yx + in.position.xy / input.resolution.xy;
+
+#ifdef SHOW_TILING
+    let p = ((uv * TAU * 2.0) % TAU) - 250.0;
+#else
+    let p = ((uv * TAU) % TAU) - 250.0;
+#endif
+    var i = vec2(p);
+    var c = 1.0;
+    let inten = 0.005;
+
+    for (var n = 0; n < MAX_ITER; n++) {
+        let t = time * (1.0 - (3.5 / (f32(n) + 1.0)));
+        i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+        c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
+    }
+    c = c / f32(MAX_ITER);
+    c = 1.17 - pow(c, 1.4);
+    var color = vec3(pow(abs(c), 8.0));
+    color = color * input.power;
+    let t_color = color * turbulence_color.rgb;
+    color = rgba_shift(vec4(color, 1.0)).rgb;
+    color = mix(color * base_color.rgb, t_color, 0.5);
+
+#ifdef SHOW_TILING
+    // Flash tile borders...
+    let pixel = 2.0 / vec2(input.resolution.x, input.resolution.y);
+    uv *= 2.0;
+    let f = floor(((input.time * 0.5) % 2.0));     // Flash value.
+    let first = step(pixel, uv) * f;            // Rule out first screen pixels and flash.
+    uv = step(fract(uv), pixel);                // Add one line of pixels per tile.
+    color = mix(color, vec3(1.0, 1.0, 0.0), (uv.x + uv.y) * first.x * first.y); // Yellow line
+#endif
+
+    return vec4(color, base_color.a);
 }

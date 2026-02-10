@@ -70,6 +70,22 @@ pub struct SuperellipseUiMaterial {
     /// Time
     #[uniform(0)]
     pub time: f32,
+
+    /// The background color of the material
+    #[uniform(0)]
+    pub turbulence_color: LinearRgba,
+
+    /// The size of the material on screen in pixels
+    #[uniform(0)]
+    pub power: f32,
+
+    /// Screen resolution
+    #[uniform(0)]
+    pub resolution: Vec2,
+
+    /// Value if used as progress bar
+    #[uniform(0)]
+    pub value: f32,
 }
 
 impl Default for SuperellipseUiMaterial {
@@ -81,6 +97,10 @@ impl Default for SuperellipseUiMaterial {
             border_thickness: 0.,
             inverse_scale_factor: 1.,
             time: 0f32,
+            turbulence_color: LinearRgba::NONE,
+            power: 1f32,
+            resolution: Vec2::new(1024.0, 768.0),
+            value: 1f32,
         }
     }
 }

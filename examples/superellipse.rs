@@ -30,6 +30,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
     let background_color: LinearRgba = Srgba::hex("#5cb3af").unwrap().into();
     let border_color: LinearRgba = LinearRgba::WHITE;
+    let turbulence_color: LinearRgba = Srgba::hex("#5cffff").unwrap().into();
 
     // Add the material
     let panel_material_superellipse = materials.add(SuperellipseUiMaterial {
@@ -37,6 +38,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
         border_color,
         border_radius,
         border_thickness: BORDER_THICKNESS,
+        turbulence_color,
+        power: 1f32,
         ..default()
     });
 

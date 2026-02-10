@@ -11,9 +11,10 @@ struct RoundUiMaterial {
     /// Inverse scale factor: must be updated to match the ComputedNode
     @location(4) inverse_scale_factor: f32,
 
-    @location(5) turbulence_color: vec4<f32>,
-    @location(6) power: f32,
-    @location(7) time: f32,
+    @location(5) time: f32,
+
+    @location(6) turbulence_color: vec4<f32>,
+    @location(7) power: f32,
     @location(8) resolution: vec2<f32>,
     @location(9) value: f32,
 }
@@ -99,8 +100,8 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 }
 
 fn rgba_shift(color: vec4<f32>) -> vec4<f32> {
-	let shift = color.a - min(color.r, min(color.g, color.b)) - max(color.r, max(color.g, color.b));
-	return vec4(shift + color.r, shift + color.g, shift + color.b, color.a);
+    let shift = color.a - min(color.r, min(color.g, color.b)) - max(color.r, max(color.g, color.b));
+    return vec4(shift + color.r, shift + color.g, shift + color.b, color.a);
 }
 
 // Found this on GLSL sandbox. I really liked it, changed a few things and made it tileable.
@@ -142,17 +143,17 @@ fn turbulence(in: UiVertexOutput, turbulence_color: vec4<f32>, base_color: vec4<
     c = 1.17 - pow(c, 1.4);
     var color = vec3(pow(abs(c), 8.0));
     color = color * input.power;
-	let t_color = color * turbulence_color.rgb;
-	color = rgba_shift(vec4(color, 1.0)).rgb;
-	color = mix(color * base_color.rgb, t_color, 0.5);
+    let t_color = color * turbulence_color.rgb;
+    color = rgba_shift(vec4(color, 1.0)).rgb;
+    color = mix(color * base_color.rgb, t_color, 0.5);
 
 #ifdef SHOW_TILING
     // Flash tile borders...
     let pixel = 2.0 / vec2(input.resolution.x, input.resolution.y);
     uv *= 2.0;
-    let f = floor(((input.time * 0.5) % 2.0)); 	// Flash value.
-    let first = step(pixel, uv) * f;			// Rule out first screen pixels and flash.
-    uv = step(fract(uv), pixel);				// Add one line of pixels per tile.
+    let f = floor(((input.time * 0.5) % 2.0));     // Flash value.
+    let first = step(pixel, uv) * f;            // Rule out first screen pixels and flash.
+    uv = step(fract(uv), pixel);                // Add one line of pixels per tile.
     color = mix(color, vec3(1.0, 1.0, 0.0), (uv.x + uv.y) * first.x * first.y); // Yellow line
 #endif
 

@@ -64,6 +64,10 @@ pub struct RoundRectUiMaterial {
     #[uniform(0)]
     pub inverse_scale_factor: f32,
 
+    /// Time
+    #[uniform(0)]
+    pub time: f32,
+
     /// The background color of the material
     #[uniform(0)]
     pub turbulence_color: LinearRgba,
@@ -71,10 +75,6 @@ pub struct RoundRectUiMaterial {
     /// The size of the material on screen in pixels
     #[uniform(0)]
     pub power: f32,
-
-    /// Time
-    #[uniform(0)]
-    pub time: f32,
 
     /// Screen resolution
     #[uniform(0)]
@@ -106,9 +106,9 @@ impl Default for RoundRectUiMaterial {
             offset: Vec4::splat(0.),
             inverse_scale_factor: 1.,
 
+            time: 0f32,
             turbulence_color: LinearRgba::RED,
             power: 1f32,
-            time: 0f32,
             resolution: Vec2::new(1024.0, 768.0),
             value: 1f32,
             /*
