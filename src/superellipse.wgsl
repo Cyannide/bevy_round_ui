@@ -78,8 +78,11 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // define the alpha and color values depending on the distance sign.
     let alpha = select(input.background_color.a, 0., d > 0.);
     var col = select(
-        //input.background_color.rgb,
+#ifdef TURBULENCE
         turbulence(in, input.turbulence_color, input.background_color),
+#else
+        input.background_color.rgba,
+#endif
         vec4f(0.),
         d > 0.0
     );

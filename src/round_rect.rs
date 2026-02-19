@@ -124,6 +124,15 @@ impl UiMaterial for RoundRectUiMaterial {
     fn fragment_shader() -> ShaderRef {
         ROUND_RECT_SHADER_HANDLE.into()
     }
+
+    #[cfg(feature = "turbulence")]
+    fn specialize(
+        descriptor: &mut RenderPipelineDescriptor,
+        _key: UiMaterialKey<Self>,
+    ) {
+        let fragment = descriptor.fragment.as_mut().unwrap();
+        fragment.shader_defs.push("TURBULENCE".into());
+    }
 }
 
 impl RoundRectUiMaterial {

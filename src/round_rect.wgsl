@@ -81,8 +81,12 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // define the final color. Use `input.border_color` if within border
     // radius, otherwise `input.background_color`.
     var color = select(
+#ifdef TURBULENCE
         turbulence(in, input.turbulence_color, input.background_color),
 //        water(in, input.background_color),
+#else
+        input.background_color,
+#endif
         input.border_color,
         (d_shape > 0. && d_border <= 0.),
     );

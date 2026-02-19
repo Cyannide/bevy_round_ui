@@ -1,6 +1,6 @@
 [package]
 name = "bevy_round_ui"
-version = "7.0.0"
+version = "7.0.1"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 authors = ["Robert Dodd"]
@@ -21,6 +21,7 @@ default = [
 ]
 round_rect = []
 superellipse = []
+turbulence = []
 
 [dependencies]
 bevy = "0.18"
