@@ -8,15 +8,13 @@ struct RoundUiMaterial {
     @location(2) border_radius: vec4<f32>,
     /// border offset: (top, left, bottom, right)
     @location(3) offset: vec4<f32>,
-    /// Inverse scale factor: must be updated to match the ComputedNode
-    @location(4) inverse_scale_factor: f32,
 
-    @location(5) time: f32,
+    @location(4) time: f32,
 
-    @location(6) turbulence_color: vec4<f32>,
-    @location(7) power: f32,
-    @location(8) resolution: vec2<f32>,
-    @location(9) value: f32,
+    @location(5) turbulence_color: vec4<f32>,
+    @location(6) power: f32,
+    @location(7) resolution: vec2<f32>,
+    @location(8) value: f32,
 }
 
 @group(1) @binding(0)
@@ -56,24 +54,24 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
     // position offset to account for border
     let border_offset = vec2<f32>(
-        (input.offset.w - input.offset.y) / input.inverse_scale_factor, // right - left
-        (input.offset.z - input.offset.x) / input.inverse_scale_factor, // bottom - top
+        (input.offset.w - input.offset.y), // right - left
+        (input.offset.z - input.offset.x), // bottom - top
     );
 
     // SDF distance in the inner button area
     // The inner button size is equal to actual size - offset size
     let size = in.size - vec2<f32>(
-        (input.offset.y + input.offset.w) / input.inverse_scale_factor, // left + right
-        (input.offset.x + input.offset.z) / input.inverse_scale_factor, // top + bottom
+        (input.offset.y + input.offset.w), // left + right
+        (input.offset.x + input.offset.z), // top + bottom
     );
     let d_shape = sdf_rounded_rect(
         uv + border_offset,
         size,
-        input.border_radius / input.inverse_scale_factor,
+        input.border_radius,
     );
 
     // SDF distance in border area
-    let d_border = sdf_rounded_rect(uv, in.size, input.border_radius / input.inverse_scale_factor);
+    let d_border = sdf_rounded_rect(uv, in.size, input.border_radius);
 
     // define the alpha value. Opaque if within the button or border area,
     // transparent otherwise.
