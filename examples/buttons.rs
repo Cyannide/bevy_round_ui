@@ -133,7 +133,7 @@ fn setup(
                         p.spawn((
                             Text::new("MENU"),
                             TextFont {
-                                font_size: 40.,
+                                font_size: FontSize::Px(40.),
                                 ..default()
                             },
                             TextColor::WHITE,
@@ -174,7 +174,7 @@ fn spawn_button(
             p.spawn((
                 Text::new(text),
                 TextFont {
-                    font_size: 20.,
+                    font_size: FontSize::Px(20.),
                     ..default()
                 },
                 TextColor::WHITE,

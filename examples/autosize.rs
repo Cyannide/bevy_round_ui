@@ -66,7 +66,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
                     p.spawn((
                         Text::new("Resize the window to see how flexible I am"),
                         TextFont {
-                            font_size: 20.,
+                            font_size: FontSize::Px(20.),
                             ..default()
                         },
                         TextColor::WHITE,

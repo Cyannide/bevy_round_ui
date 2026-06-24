@@ -134,7 +134,7 @@ fn setup(
                 parent.spawn((
                     Text::new("0.00%"),
                     TextFont {
-                        font_size: 10.,
+                        font_size: FontSize::Px(10.),
                         ..default()
                     },
                     TextColor::BLACK,

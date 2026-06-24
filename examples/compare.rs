@@ -118,7 +118,7 @@ fn help_text(p: &mut ChildSpawnerCommands, val: impl Into<String>) {
     p.spawn((
         Text::new(val),
         TextFont {
-            font_size: 24.,
+            font_size: FontSize::Px(24.),
             ..default()
         },
     ));
