@@ -109,10 +109,7 @@ impl UiMaterial for RoundRectUiMaterial {
     }
 
     #[cfg(feature = "turbulence")]
-    fn specialize(
-        descriptor: &mut RenderPipelineDescriptor,
-        _key: UiMaterialKey<Self>,
-    ) {
+    fn specialize(descriptor: &mut RenderPipelineDescriptor, _key: UiMaterialKey<Self>) {
         let fragment = descriptor.fragment.as_mut().unwrap();
         fragment.shader_defs.push("TURBULENCE".into());
     }
